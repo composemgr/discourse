@@ -51,4 +51,5 @@ services:
 
 networks:
   discourse:
+    name: discourse
     external: false
