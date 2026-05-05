@@ -50,9 +50,9 @@ See `docker-compose.yaml` for complete list of configurable options.
 
 ## 📂 Volumes
 
-- `./rootfs/data/discourse` - Data storage
-- `./rootfs/config/discourse` - Data storage
-- `./rootfs/data/db/postgres/discourse` - Data storage
+- `./volumes/data/discourse` - Data storage
+- `./volumes/config/discourse` - Data storage
+- `./volumes/data/db/postgres/discourse` - Data storage
 
 ## 🔐 Security
 
