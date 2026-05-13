@@ -35,7 +35,7 @@ services:
       DISCOURSE_REDIS_HOST: discourse-redis
       DISCOURSE_REDIS_PORT_NUMBER: 6379
       DISCOURSE_SMTP_HOST: ${EMAIL_SERVER_HOST:-172.17.0.1}
-      DISCOURSE_SMTP_PORT: ${EMAIL_SERVER_PORT:-587}
+      DISCOURSE_SMTP_PORT_NUMBER: ${EMAIL_SERVER_PORT:-587}
       DISCOURSE_SMTP_USER: ${EMAIL_SERVER_LOGIN_NAME:-}
       DISCOURSE_SMTP_PASSWORD: ${EMAIL_SERVER_LOGIN_PASS:-}
       DISCOURSE_SMTP_PROTOCOL: tls
@@ -63,6 +63,37 @@ services:
       - 'traefik.http.routers.discourse-app-secure.tls.certresolver=cloudflare'
       - 'traefik.http.routers.discourse-app-secure.service=discourse-app'
       - 'traefik.http.services.discourse-app.loadbalancer.server.port=3000'
+
+  discourse-sidekiq:
+    image: bitnami/discourse:latest
+    pull_policy: always
+    container_name: discourse-sidekiq
+    restart: always
+    logging: *default-logging
+    command: /opt/bitnami/scripts/discourse-sidekiq/run.sh
+    networks:
+      - discourse
+    environment:
+      TZ: ${TZ:-America/New_York}
+      DISCOURSE_HOST: ${BASE_HOST_NAME:-localhost}
+      DISCOURSE_DATABASE_HOST: discourse-db
+      DISCOURSE_DATABASE_PORT_NUMBER: 5432
+      DISCOURSE_DATABASE_USER: ${DB_USER_NAME:-discourse}
+      DISCOURSE_DATABASE_PASSWORD: ${DB_USER_PASS:-changeme_db_password}
+      DISCOURSE_DATABASE_NAME: ${DB_CREATE_DATABASE_NAME:-discourse}
+      DISCOURSE_REDIS_HOST: discourse-redis
+      DISCOURSE_REDIS_PORT_NUMBER: 6379
+      DISCOURSE_SMTP_HOST: ${EMAIL_SERVER_HOST:-172.17.0.1}
+      DISCOURSE_SMTP_PORT_NUMBER: ${EMAIL_SERVER_PORT:-587}
+      DISCOURSE_SMTP_USER: ${EMAIL_SERVER_LOGIN_NAME:-}
+      DISCOURSE_SMTP_PASSWORD: ${EMAIL_SERVER_LOGIN_PASS:-}
+      CONTAINER_NAME: discourse-sidekiq
+    volumes:
+      - ./volumes/data/discourse:/bitnami/discourse
+    depends_on:
+      - discourse
+      - discourse-db
+      - discourse-redis
 
   discourse-db:
     image: postgres:latest
