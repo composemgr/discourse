@@ -26,7 +26,7 @@ services:
       DISCOURSE_SITE_NAME: ${APP_ORG_NAME:-Discourse}
       DISCOURSE_USERNAME: ${APP_ADMIN_USER:-admin}
       DISCOURSE_PASSWORD: ${APP_ADMIN_PASS:-changeme_admin_password}
-      DISCOURSE_EMAIL: ${APP_ADMIN_EMAIL:-admin@example.com}
+      DISCOURSE_EMAIL: ${APP_ADMIN_USER:-admin@example.com}
       DISCOURSE_DATABASE_HOST: discourse-db
       DISCOURSE_DATABASE_PORT_NUMBER: 5432
       DISCOURSE_DATABASE_USER: ${DB_USER_NAME:-discourse}
